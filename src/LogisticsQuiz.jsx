@@ -67,14 +67,21 @@ function LogisticsQuiz() {
   };
 
   const startWrongQuiz = () => {
-    const wrongIds = shuffle(wrongNotes.map(w => w.num));
+    // 오답노트에서 문제 번호만 추출하고 중복 제거
+    const uniqueWrongIds = Array.from(new Set(wrongNotes.map(w => w.num)));
+    const wrongIds = shuffle(uniqueWrongIds);
+  
+    // 오답노트 초기화 (가장 중요)
+    setWrongNotes([]);
+  
+    // 퀴즈 상태 초기화
     setQuizPool(wrongIds);
     setCurrentIndex(0);
     setScore(0);
     setUserInputs([]);
     setResult(null);
     setShowResult(false);
-    setWrongNotes([]);
+  
     setMode('quiz');
   };
 
