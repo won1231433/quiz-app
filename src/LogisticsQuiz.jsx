@@ -15,13 +15,15 @@ function LogisticsQuiz() {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    fetch('/problems.json')
-      .then(res => res.json())
-      .then(data => setProblems(data));
-    fetch('/answers.json')
-      .then(res => res.json())
-      .then(data => setAnswers(data));
-  }, []);
+    if (quizType) {
+      fetch('/problems.json')
+        .then(res => res.json())
+        .then(data => setProblems(data[quizType] || {}));
+      fetch('/answers.json')
+        .then(res => res.json())
+        .then(data => setAnswers(data[quizType] || {}));
+    }
+  }, [quizType]);
 
   useEffect(() => {
     document.body.className = darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black';
@@ -144,12 +146,12 @@ function LogisticsQuiz() {
 
         <button
           onClick={() => {
-            setQuizType('지게차');
+            setQuizType('물류자동화기말');
             setMode('start');
           }}
           className="bg-green-600 text-white px-6 py-3 rounded text-lg"
         >
-          🚜 지게차
+          🚜 물류자동화기말
         </button>
       </div>
     </div>
